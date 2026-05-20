@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>선윤이와 기웅이의 출산 전 먹킷리스트</title>
+  <style>
+    :root {
+      --main: #86205c;
+      --main-dark: #56123b;
+      --main-soft: #f8e7f1;
+      --card: rgba(255, 255, 255, 0.92);
+      --ink: #252025;
+      --muted: #77707a;
+      --line: #ead8e3;
+      --green: #2f9e44;
+      --red: #ff3b30;
+      --star: #ffb703;
+      --cream: #fff8ef;
+      --shadow: 0 18px 48px rgba(86, 18, 59, 0.12);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(255, 214, 238, 0.9), transparent 32%),
+        radial-gradient(circle at 92% 4%, rgba(255, 241, 204, 0.95), transparent 34%),
+        linear-gradient(180deg, #fff7fb 0%, #fffaf1 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 22px;
+    }
+
+    .app {
+      width: min(1160px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .hero-card,
+    .status-card,
+    .panel,
+    .list-wrap {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    .hero-card::after {
+      content: "🍽️";
+      position: absolute;
+      right: 28px;
+      bottom: 12px;
+      font-size: 94px;
+      opacity: 0.12;
+      transform: rotate(-12deg);
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: var(--main-soft);
+      color: var(--main);
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--main-dark);
+      font-size: clamp(29px, 4.6vw, 52px);
+      line-height: 1.07;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 690px;
+    }
+
+    .status-card {
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 15px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #f0e2eb;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--main), #ff7db9);
+      transition: width 0.25s ease;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .stat {
+      background: #fff7fb;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 14px 8px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--main-dark);
+      font-size: 25px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .panel {
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: -0.04em;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 0.85fr 0.95fr 0.65fr 0.75fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 48px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 15px;
+      padding: 0 14px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      font-family: inherit;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(134, 32, 92, 0.55);
+      box-shadow: 0 0 0 4px rgba(134, 32, 92, 0.1);
+    }
+
+    .btn {
+      min-height: 48px;
+      border: 0;
+      cursor: pointer;
+      border-radius: 15px;
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 950;
+      font-family: inherit;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--main);
+      color: white;
+      box-shadow: 0 10px 24px rgba(134, 32, 92, 0.23);
+    }
+
+    .btn-soft {
+      background: var(--main-soft);
+      color: var(--main-dark);
+    }
+
+    .btn-danger {
+      background: #fff0f0;
+      color: #c92a2a;
+      border: 1px solid #ffd8d8;
+    }
+
+    .btn-mini {
+      min-height: 38px;
+      padding: 0 12px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .pick-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 64px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--main-soft);
+      color: var(--main-dark);
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .pick-badge.giwoong { background: #eef3ff; color: #3155a4; }
+    .pick-badge.seonyoon { background: #fff0f7; color: #b02f70; }
+    .pick-badge.both { background: #fff6dd; color: #8a5a00; }
+
+    .list-wrap {
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .list-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(134, 32, 92, 0.09), rgba(255, 248, 252, 0.3));
+    }
+
+    .list-top strong {
+      color: var(--main-dark);
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .desktop-table {
+      width: 100%;
+      overflow-x: auto;
+      background: white;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1060px;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    thead th {
+      background: var(--main);
+      color: white;
+      padding: 13px 10px;
+      font-size: 14px;
+      border-right: 1px solid rgba(255, 255, 255, 0.22);
+      text-align: center;
+    }
+
+    tbody td {
+      border-bottom: 1px solid #efe4ea;
+      border-right: 1px solid #efe4ea;
+      padding: 10px;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    tbody tr.done { background: #fbfff9; }
+
+    tbody tr.done .store,
+    tbody tr.done .food {
+      text-decoration: line-through;
+      color: #8b8b8b;
+    }
+
+    .num {
+      width: 54px;
+      text-align: center;
+      font-weight: 900;
+      color: var(--main-dark);
+    }
+
+    .check-cell { width: 72px; text-align: center; }
+    .action-cell { width: 86px; text-align: center; }
+    .memo-cell { min-width: 170px; }
+    .review-cell { min-width: 210px; }
+
+    .editable {
+      min-height: 34px;
+      border-radius: 11px;
+      padding: 8px 9px;
+      outline: none;
+    }
+
+    .editable:focus {
+      background: var(--cream);
+      box-shadow: inset 0 0 0 2px rgba(134, 32, 92, 0.16);
+    }
+
+    .check {
+      appearance: none;
+      width: 23px;
+      height: 23px;
+      border: 2px solid var(--red);
+      border-radius: 7px;
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      background: white;
+      vertical-align: middle;
+    }
+
+    .check:checked {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .check:checked::after {
+      content: "✓";
+      color: white;
+      font-weight: 1000;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .review-summary {
+      display: grid;
+      gap: 7px;
+    }
+
+    .total-score {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fff8e6;
+      color: #8a5a00;
+      font-weight: 950;
+      font-size: 13px;
+      border: 1px solid #f3dfbe;
+    }
+
+    .review-lines {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .stars-text {
+      color: var(--star);
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+    }
+
+    .mobile-list {
+      display: none;
+      gap: 12px;
+      padding: 12px;
+      background: white;
+    }
+
+    .food-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 15px;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(86, 18, 59, 0.07);
+    }
+
+    .food-card.done { background: #fbfff9; }
+
+    .food-card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      background: var(--main-soft);
+      color: var(--main-dark);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 19px;
+      letter-spacing: -0.04em;
+      color: var(--main-dark);
+    }
+
+    .card-sub {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card-meta {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .mini-box {
+      border-radius: 14px;
+      background: #fff7fb;
+      border: 1px solid var(--line);
+      padding: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 58px;
+    }
+
+    .mini-box b {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .card-review {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #fff8ef;
+      border: 1px solid #f3dfbe;
+    }
+
+    .empty {
+      padding: 48px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: white;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 14px 0 4px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(31, 20, 30, 0.52);
+      z-index: 200;
+    }
+
+    .modal-backdrop.show { display: flex; }
+
+    .modal {
+      width: min(520px, 100%);
+      max-height: min(720px, 92vh);
+      overflow: auto;
+      border-radius: 26px;
+      background: white;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+      padding: 20px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      margin: 0;
+      color: var(--main-dark);
+      font-size: 22px;
+      letter-spacing: -0.04em;
+    }
+
+    .close-btn {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--main-soft);
+      color: var(--main-dark);
+      font-size: 20px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .rating-row {
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .rating-row:last-of-type { border-bottom: 0; }
+
+    .rating-label {
+      font-size: 15px;
+      font-weight: 950;
+      color: var(--ink);
+    }
+
+    .rating-help {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .star-box {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: flex-end;
+    }
+
+    .star {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      color: #ded2da;
+      font-size: 28px;
+      line-height: 1;
+      padding: 2px;
+      transition: transform 0.12s ease, color 0.12s ease;
+    }
+
+    .star:hover { transform: scale(1.12); }
+    .star.on { color: var(--star); }
+
+    .modal-total {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(90deg, #fff8e6, #fff0f7);
+      border: 1px solid #f3dfbe;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      font-weight: 950;
+      color: var(--main-dark);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(36, 33, 36, 0.94);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 300;
+      font-size: 14px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      body { padding: 14px; }
+      .hero { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr 1fr; }
+      .form-grid .full-mobile { grid-column: 1 / -1; }
+      .btn { width: 100%; }
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 10px; }
+      .hero { gap: 12px; margin-bottom: 12px; }
+      .hero-card,
+      .status-card,
+      .panel { padding: 17px; border-radius: 22px; }
+      .hero-card::after { font-size: 70px; right: 16px; bottom: 8px; }
+      .subtitle { font-size: 14px; }
+      .status-card { gap: 12px; }
+      .section-title { display: block; }
+      .section-title .hint { display: block; margin-top: 6px; }
+      .form-grid { grid-template-columns: 1fr; }
+      input, select, .btn { height: 50px; }
+      .desktop-table { display: none !important; }
+      .mobile-list { display: grid; }
+      .list-top { align-items: flex-start; flex-direction: column; padding: 15px; }
+      .card-meta { grid-template-columns: 1fr; }
+      .stats { gap: 7px; }
+      .stat { padding: 12px 6px; }
+      .stat strong { font-size: 22px; }
+      .rating-row { grid-template-columns: 1fr; gap: 8px; }
+      .star-box { justify-content: flex-start; }
+      .star { font-size: 31px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="hero-copy">
+          <div class="eyebrow">👶 출산 전 둘만의 맛집 기록</div>
+          <h1>선윤이와 기웅이의<br />출산 전 먹킷리스트</h1>
+          <p class="subtitle">
+            출산 전에 꼭 먹고 싶은 음식들을 하나씩 기록해두는 공간이야.
+            지역, 기웅픽, 선윤픽으로 나눠두고 먹고 나면 맛·가성비·분위기·친절도·재방문 의사까지 구체적으로 남길 수 있어.
+          </p>
+        </div>
+      </div>
+
+      <aside class="status-card">
+        <div>
+          <div class="progress-label">
+            <span>먹킷 달성률</span>
+            <span id="progressText">0%</span>
+          </div>
+          <div class="progress-track" aria-label="달성률">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong id="totalCount">0</strong><span>전체</span></div>
+          <div class="stat"><strong id="doneCount">0</strong><span>완료</span></div>
+          <div class="stat"><strong id="avgRating">0.0</strong><span>평균 총점</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">
+        <h2>먹고 싶은 곳 추가하기</h2>
+        <span class="hint">기대별점은 빼고, 먹고 난 뒤에 상세 평가로 남기게 바꿨어.</span>
+      </div>
+      <form class="form-grid" id="addForm">
+        <div>
+          <label for="storeInput">업체명</label>
+          <input id="storeInput" placeholder="예: 초당순두부 맛집" autocomplete="off" />
+        </div>
+        <div>
+          <label for="areaInput">지역</label>
+          <input id="areaInput" placeholder="예: 강릉, 병점" autocomplete="off" />
+        </div>
+        <div>
+          <label for="foodInput">음식</label>
+          <input id="foodInput" placeholder="예: 순두부전골, 대게" autocomplete="off" />
+        </div>
+        <div>
+          <label for="distanceInput">거리</label>
+          <input id="distanceInput" placeholder="예: 20분" autocomplete="off" />
+        </div>
+        <div>
+          <label for="pickerInput">누구 픽?</label>
+          <select id="pickerInput">
+            <option value="기웅픽">기웅픽</option>
+            <option value="선윤픽">선윤픽</option>
+            <option value="둘다픽">둘다픽</option>
+          </select>
+        </div>
+        <div class="full-mobile">
+          <label for="memoInput">메모</label>
+          <input id="memoInput" placeholder="예: 주차 가능, 웨이팅 확인" autocomplete="off" />
+        </div>
+        <button class="btn btn-primary full-mobile" type="submit">+ 추가</button>
+      </form>
+    </section>
+
+    <section class="list-wrap">
+      <div class="list-top">
+        <strong>먹킷리스트</strong>
+        <span class="hint">평가 버튼을 누르면 맛·가성비·분위기·친절도·재방문을 각각 별점으로 남길 수 있어.</span>
+      </div>
+
+      <div class="desktop-table" id="desktopTable">
+        <table>
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>업체명</th>
+              <th>지역</th>
+              <th>음식</th>
+              <th>거리</th>
+              <th>픽</th>
+              <th>평가</th>
+              <th>메모</th>
+              <th>체크</th>
+              <th>관리</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="mobile-list" id="mobileList"></div>
+      <div class="empty" id="emptyState" hidden>
+        아직 추가된 먹킷리스트가 없어. 첫 번째 맛집을 추가해봐 🍜
+      </div>
+    </section>
+
+    <p class="footer-note">Made for Seonyoon & Giwoong · 최대 100개까지 Netlify 공유 저장소에 저장됩니다.</p>
+  </main>
+
+  <div class="modal-backdrop" id="reviewModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div>
+          <h2 class="modal-title" id="modalTitle">맛집 평가</h2>
+          <p class="hint" id="modalSubtitle" style="margin: 6px 0 0;">먹고 난 뒤 솔직하게 남겨두기</p>
+        </div>
+        <button class="close-btn" onclick="closeReviewModal()" aria-label="닫기">×</button>
+      </div>
+
+      <div id="modalRatingRows"></div>
+
+      <div class="modal-total">
+        <span>총점</span>
+        <span id="modalTotal">0.0 / 5.0</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 14px;">
+        <button class="btn btn-soft" onclick="resetCurrentReview()">평가 초기화</button>
+        <button class="btn btn-primary" onclick="closeReviewModal()">저장 완료</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API_URL = "/.netlify/functions/list";
+    const MAX_ITEMS = 100;
+    const STARTER_ROWS = 20;
+
+    const ratingFields = [
+      { key: "taste", label: "맛", help: "음식 자체의 만족도" },
+      { key: "value", label: "가성비", help: "가격 대비 만족도" },
+      { key: "vibe", label: "분위기", help: "공간, 청결, 데이트 느낌" },
+      { key: "kindness", label: "친절도", help: "응대와 서비스" },
+      { key: "revisit", label: "재방문", help: "또 갈 마음이 있는지" }
+    ];
+
+    let items = Array.from({ length: STARTER_ROWS }, createEmptyItem);
+    let currentReviewIndex = null;
+
+    const tableBody = document.getElementById("tableBody");
+    const mobileList = document.getElementById("mobileList");
+    const emptyState = document.getElementById("emptyState");
+    const desktopTable = document.getElementById("desktopTable");
+    const toast = document.getElementById("toast");
+    const reviewModal = document.getElementById("reviewModal");
+    const modalRatingRows = document.getElementById("modalRatingRows");
+
+    render();
+    loadFromCloud();
+
+    document.getElementById("addForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const store = document.getElementById("storeInput").value.trim();
+      const area = document.getElementById("areaInput").value.trim();
+      const food = document.getElementById("foodInput").value.trim();
+      const distance = document.getElementById("distanceInput").value.trim();
+      const picker = document.getElementById("pickerInput").value;
+      const memo = document.getElementById("memoInput").value.trim();
+
+      if (!store && !area && !food && !distance && !memo) {
+        showToast("하나라도 입력하면 추가할 수 있어!");
+        return;
+      }
+
+      const emptyIndex = items.findIndex(isEmptyItem);
+      const newItem = { store, area, food, distance, picker, memo, ratings: createEmptyRatings(), done: false };
+
+      if (emptyIndex >= 0) {
+        items[emptyIndex] = newItem;
+      } else {
+        if (items.length >= MAX_ITEMS) {
+          showToast("최대 100개까지만 저장할 수 있어!");
+          return;
+        }
+        items.push(newItem);
+      }
+
+      event.target.reset();
+      document.getElementById("pickerInput").value = "기웅픽";
+      saveAndRender("먹킷리스트에 추가했어");
+    });
+
+    reviewModal.addEventListener("click", function (event) {
+      if (event.target === reviewModal) closeReviewModal();
+    });
+
+    function createEmptyRatings() {
+      return { taste: 0, value: 0, vibe: 0, kindness: 0, revisit: 0 };
+    }
+
+    function createEmptyItem() {
+      return { store: "", area: "", food: "", distance: "", picker: "", memo: "", ratings: createEmptyRatings(), done: false };
+    }
+
+    async function loadFromCloud() {
+      try {
+        const response = await fetch(API_URL, { method: "GET" });
+        if (!response.ok) throw new Error("불러오기 실패");
+        const data = await response.json();
+        const cloudItems = Array.isArray(data.items) ? data.items.slice(0, MAX_ITEMS).map(normalizeItem) : [];
+        while (cloudItems.length < STARTER_ROWS) cloudItems.push(createEmptyItem());
+        items = cloudItems;
+        render();
+        showToast("공유 리스트를 불러왔어");
+      } catch (error) {
+        console.error(error);
+        showToast("공유 저장소 연결 전이라 임시 화면으로 보여줄게");
+      }
+    }
+
+    function normalizeItem(item) {
+      const oldRating = Number(item.rating || 0);
+      const ratings = item.ratings ? item.ratings : {
+        taste: oldRating,
+        value: oldRating,
+        vibe: oldRating,
+        kindness: oldRating,
+        revisit: oldRating
+      };
+
+      return {
+        store: item.store || "",
+        area: item.area || "",
+        food: item.food || "",
+        distance: item.distance || "",
+        picker: item.picker || "",
+        memo: item.memo || "",
+        ratings: {
+          taste: Number(ratings.taste || 0),
+          value: Number(ratings.value || 0),
+          vibe: Number(ratings.vibe || 0),
+          kindness: Number(ratings.kindness || 0),
+          revisit: Number(ratings.revisit || 0)
+        },
+        done: Boolean(item.done)
+      };
+    }
+
+    function isEmptyItem(item) {
+      return !item.store && !item.area && !item.food && !item.distance && !item.picker && !item.memo && !hasAnyRating(item) && !item.done;
+    }
+
+    function hasAnyRating(item) {
+      return ratingFields.some((field) => Number(item.ratings?.[field.key] || 0) > 0);
+    }
+
+    async function saveItems() {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: items.slice(0, MAX_ITEMS) })
+      });
+      if (!response.ok) throw new Error("저장 실패");
+    }
+
+    async function saveAndRender(message) {
+      render();
+      try {
+        await saveItems();
+        if (message) showToast(message);
+      } catch (error) {
+        console.error(error);
+        showToast("저장 실패: Netlify 함수 연결을 확인해줘");
+      }
+    }
+
+    function render() {
+      tableBody.innerHTML = "";
+      mobileList.innerHTML = "";
+
+      const hasItems = items.length > 0;
+      emptyState.hidden = hasItems;
+      desktopTable.style.display = hasItems ? "block" : "none";
+      mobileList.style.display = hasItems ? "" : "none";
+
+      items.forEach((item, index) => {
+        const row = document.createElement("tr");
+        row.className = item.done ? "done" : "";
+        row.innerHTML = `
+          <td class="num">${index + 1}</td>
+          <td><div class="editable store" contenteditable="true" data-field="store" data-index="${index}" spellcheck="false">${escapeHTML(item.store)}</div></td>
+          <td><div class="editable" contenteditable="true" data-field="area" data-index="${index}" spellcheck="false">${escapeHTML(item.area)}</div></td>
+          <td><div class="editable food" contenteditable="true" data-field="food" data-index="${index}" spellcheck="false">${escapeHTML(item.food)}</div></td>
+          <td><div class="editable" contenteditable="true" data-field="distance" data-index="${index}" spellcheck="false">${escapeHTML(item.distance)}</div></td>
+          <td style="text-align:center;"><span class="pick-badge ${pickerClass(item.picker)}">${escapeHTML(item.picker || "미정")}</span></td>
+          <td class="review-cell">${reviewSummaryHTML(item)}<button class="btn btn-soft btn-mini" onclick="openReviewModal(${index})">평가</button></td>
+          <td class="memo-cell"><div class="editable" contenteditable="true" data-field="memo" data-index="${index}" spellcheck="false">${escapeHTML(item.memo)}</div></td>
+          <td class="check-cell"><input class="check" type="checkbox" ${item.done ? "checked" : ""} aria-label="완료 체크" onchange="toggleDone(${index}, this.checked)" /></td>
+          <td class="action-cell"><button class="btn btn-danger btn-mini" onclick="removeItem(${index})">삭제</button></td>
+        `;
+        tableBody.appendChild(row);
+
+        const card = document.createElement("article");
+        card.className = `food-card ${item.done ? "done" : ""}`;
+        card.innerHTML = `
+          <div class="food-card-head">
+            <span class="badge">#${index + 1}</span>
+            <input class="check" type="checkbox" ${item.done ? "checked" : ""} aria-label="완료 체크" onchange="toggleDone(${index}, this.checked)" />
+          </div>
+          <h3 class="card-title">${escapeHTML(item.store || "업체명 미정")}</h3>
+          <p class="card-sub">${escapeHTML(item.food || "먹고 싶은 음식 미정")}</p>
+          <p class="card-sub" style="margin-top:4px;">📍 ${escapeHTML(item.area || "지역 미정")}</p>
+          <div style="margin-top:10px;"><span class="pick-badge ${pickerClass(item.picker)}">${escapeHTML(item.picker || "미정")}</span></div>
+          <div class="card-review">${reviewSummaryHTML(item)}</div>
+          <div class="card-meta">
+            <div class="mini-box"><b>지역</b>${escapeHTML(item.area || "미정")}</div>
+            <div class="mini-box"><b>거리</b>${escapeHTML(item.distance || "미정")}</div>
+            <div class="mini-box"><b>메모</b>${escapeHTML(item.memo || "-")}</div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:12px;">
+            <button class="btn btn-soft" onclick="openReviewModal(${index})">평가</button>
+            <button class="btn btn-soft" onclick="quickEdit(${index})">수정</button>
+            <button class="btn btn-danger" onclick="removeItem(${index})">삭제</button>
+          </div>
+        `;
+        mobileList.appendChild(card);
+      });
+
+      tableBody.querySelectorAll(".editable").forEach((el) => {
+        el.addEventListener("blur", handleEdit);
+        el.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            el.blur();
+          }
+        });
+      });
+
+      updateStats();
+    }
+
+    function reviewSummaryHTML(item) {
+      if (!hasAnyRating(item)) {
+        return `<div class="review-summary"><span class="total-score">미평가</span><div class="review-lines">먹고 난 뒤 평가 버튼으로 별점을 남겨줘.</div></div>`;
+      }
+
+      const lines = ratingFields.map((field) => {
+        const score = Number(item.ratings[field.key] || 0);
+        return `${field.label} <span class="stars-text">${starsText(score)}</span>`;
+      }).join("<br />");
+
+      return `
+        <div class="review-summary">
+          <span class="total-score">총점 ${getTotalScore(item).toFixed(1)} / 5.0</span>
+          <div class="review-lines">${lines}</div>
+        </div>
+      `;
+    }
+
+    function starsText(score) {
+      const filled = "★".repeat(score);
+      const empty = "☆".repeat(5 - score);
+      return filled + empty;
+    }
+
+    function getTotalScore(item) {
+      const sum = ratingFields.reduce((acc, field) => acc + Number(item.ratings?.[field.key] || 0), 0);
+      return sum / ratingFields.length;
+    }
+
+    function pickerClass(picker) {
+      if (picker === "기웅픽") return "giwoong";
+      if (picker === "선윤픽") return "seonyoon";
+      if (picker === "둘다픽") return "both";
+      return "";
+    }
+
+    function handleEdit(event) {
+      const index = Number(event.currentTarget.dataset.index);
+      const field = event.currentTarget.dataset.field;
+      items[index][field] = event.currentTarget.textContent.trim();
+      saveItems();
+      updateStats();
+    }
+
+    function toggleDone(index, checked) {
+      items[index].done = checked;
+      saveAndRender(checked ? "먹킷 완료 체크!" : "체크를 해제했어");
+    }
+
+    function removeItem(index) {
+      const target = items[index];
+      const label = target.store || target.food || `${index + 1}번 항목`;
+      if (!confirm(`'${label}' 항목을 비울까?`)) return;
+      items[index] = createEmptyItem();
+      saveAndRender("항목을 비웠어");
+    }
+
+    function quickEdit(index) {
+      const current = items[index];
+      const store = prompt("업체명을 수정해줘", current.store);
+      if (store === null) return;
+      const area = prompt("지역을 수정해줘", current.area);
+      if (area === null) return;
+      const food = prompt("음식을 수정해줘", current.food);
+      if (food === null) return;
+      const distance = prompt("거리를 수정해줘", current.distance);
+      if (distance === null) return;
+      const picker = prompt("기웅픽 / 선윤픽 / 둘다픽 중 하나를 입력해줘", current.picker || "기웅픽");
+      if (picker === null) return;
+      const memo = prompt("메모를 수정해줘", current.memo);
+      if (memo === null) return;
+
+      items[index] = { ...current, store: store.trim(), area: area.trim(), food: food.trim(), distance: distance.trim(), picker: picker.trim(), memo: memo.trim() };
+      saveAndRender("수정했어");
+    }
+
+    function openReviewModal(index) {
+      currentReviewIndex = index;
+      const item = items[index];
+      document.getElementById("modalTitle").textContent = item.store || `${index + 1}번 맛집 평가`;
+      document.getElementById("modalSubtitle").textContent = item.food || "먹고 난 뒤 솔직하게 남겨두기";
+      renderModalRatings();
+      reviewModal.classList.add("show");
+    }
+
+    function closeReviewModal() {
+      currentReviewIndex = null;
+      reviewModal.classList.remove("show");
+      saveAndRender("평가를 저장했어");
+    }
+
+    function renderModalRatings() {
+      if (currentReviewIndex === null) return;
+      const item = items[currentReviewIndex];
+      modalRatingRows.innerHTML = "";
+
+      ratingFields.forEach((field) => {
+        const row = document.createElement("div");
+        row.className = "rating-row";
+        row.innerHTML = `
+          <div class="rating-label">${field.label}<span class="rating-help">${field.help}</span></div>
+          <div class="star-box" data-rating-key="${field.key}"></div>
+        `;
+        modalRatingRows.appendChild(row);
+
+        const starBox = row.querySelector(".star-box");
+        drawStars(starBox, Number(item.ratings[field.key] || 0), (score) => {
+          item.ratings[field.key] = score;
+          saveItems();
+          renderModalRatings();
+          render();
+        });
+      });
+
+      document.getElementById("modalTotal").textContent = `${getTotalScore(item).toFixed(1)} / 5.0`;
+    }
+
+    function drawStars(container, value, onSelect) {
+      container.innerHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `star ${i <= value ? "on" : ""}`;
+        button.textContent = "★";
+        button.setAttribute("aria-label", `${i}점`);
+        button.addEventListener("click", () => onSelect(i === value ? 0 : i));
+        container.appendChild(button);
+      }
+    }
+
+    function resetCurrentReview() {
+      if (currentReviewIndex === null) return;
+      items[currentReviewIndex].ratings = createEmptyRatings();
+      saveItems();
+      renderModalRatings();
+      render();
+      showToast("평가를 초기화했어");
+    }
+
+    function updateStats() {
+      const realItems = items.filter((item) => !isEmptyItem(item));
+      const ratedItems = realItems.filter(hasAnyRating);
+      const total = realItems.length;
+      const done = realItems.filter((item) => item.done).length;
+      const avg = ratedItems.length
+        ? (ratedItems.reduce((sum, item) => sum + getTotalScore(item), 0) / ratedItems.length).toFixed(1)
+        : "0.0";
+      const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+      document.getElementById("totalCount").textContent = total;
+      document.getElementById("doneCount").textContent = done;
+      document.getElementById("avgRating").textContent = avg;
+      document.getElementById("progressText").textContent = `${percent}%`;
+      document.getElementById("progressFill").style.width = `${percent}%`;
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    let toastTimer;
+    function showToast(message) {
+      clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.classList.add("show");
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1500);
+    }
+  </script>
+</body>
+</html>
